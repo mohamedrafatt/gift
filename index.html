@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>عالم مصطفى & حبيبه الخاص ❤️</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+	<style>
+		:root {
+			--primary: #ff4d6d;
+			--secondary: #ff758f;
+			--gold: #d4af37;
+			--glass: rgba(255, 255, 255, 0.03);
+			--glass-border: rgba(255, 255, 255, 0.1);
+			--bg: #030303;
+			--glow-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+		}
+
+		* {
+			box-sizing: border-box;
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		body {
+			margin: 0;
+			background: var(--bg);
+			color: #fff;
+			font-family: 'Segoe UI', sans-serif;
+			overflow-x: hidden;
+		}
+
+		/* تأثير الخلفية الفخم */
+		.hearts-bg {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 0;
+			overflow: hidden;
+		}
+
+		.heart-particle {
+			position: absolute;
+			color: var(--primary);
+			opacity: 0.4;
+			animation: fall linear infinite;
+			filter: drop-shadow(0 0 5px var(--primary));
+		}
+
+		@keyframes fall {
+			to {
+				transform: translateY(110vh) rotate(360deg);
+			}
+		}
+
+		/* --- الصفحة الرئيسية --- */
+		#page-2 {
+			display: block;
+			opacity: 1;
+			min-height: 100vh;
+			position: relative;
+			z-index: 5;
+			transition: 1s;
+			padding-bottom: 50px;
+		}
+
+		.container {
+			padding: 30px 20px;
+			max-width: 500px;
+			margin: 0 auto;
+		}
+
+		.main-title {
+			font-weight: 900;
+			background: linear-gradient(45deg, #fff, var(--primary));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			margin: 0;
+		}
+
+		/* إضاءة ونبض الصور */
+		.glass-card {
+			background: var(--glass);
+			border: 1px solid var(--glass-border);
+			border-radius: 35px;
+			margin-bottom: 35px;
+			overflow: hidden;
+			opacity: 0;
+			transform: translateY(40px);
+			transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 77, 109, 0.1);
+		}
+
+		.glass-card.show {
+			opacity: 1;
+			transform: translateY(0);
+			animation: cardGlow 3s infinite alternate;
+		}
+
+		@keyframes cardGlow {
+			from {
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 77, 109, 0.1);
+			}
+
+			to {
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 77, 109, 0.3);
+			}
+		}
+
+		.glass-card img {
+			width: 100%;
+			display: block;
+			filter: brightness(0.9);
+			transition: 0.5s;
+			animation: imagePulse 5s infinite ease-in-out;
+		}
+
+		@keyframes imagePulse {
+
+			0%,
+			100% {
+				transform: scale(1);
+			}
+
+			50% {
+				transform: scale(1.03);
+			}
+		}
+
+		/* العداد */
+		.count-box {
+			background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+			border: 1px solid var(--glass-border);
+			padding: 20px 5px;
+			border-radius: 25px;
+			text-align: center;
+			backdrop-filter: blur(15px);
+			transition: 0.3s;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+		}
+
+		.count-box:hover {
+			border-color: var(--primary);
+			transform: translateY(-5px);
+			box-shadow: 0 0 20px rgba(255, 77, 109, 0.2);
+		}
+
+		.count-num {
+			font-size: 24px;
+			font-weight: 800;
+			display: block;
+			color: var(--primary);
+			text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+		}
+
+		.counter-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 12px;
+			margin: 30px 0;
+		}
+
+		.notes-container {
+			display: flex;
+			overflow-x: auto;
+			gap: 15px;
+			padding: 20px 5px;
+			scrollbar-width: none;
+		}
+
+		.note-card {
+			min-width: 150px;
+			height: 150px;
+			position: relative;
+			transition: 0.8s;
+			transform-style: preserve-3d;
+			cursor: pointer;
+		}
+
+		.note-card.flipped {
+			transform: rotateY(180deg);
+		}
+
+		.note-front,
+		.note-back {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			backface-visibility: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			border-radius: 30px;
+			border: 1px solid var(--glass-border);
+		}
+
+		.note-front {
+			background: var(--glass);
+			color: var(--gold);
+			font-size: 30px;
+		}
+
+		.note-back {
+			background: var(--primary);
+			transform: rotateY(180deg);
+			font-size: 14px;
+			font-weight: 600;
+			text-align: center;
+			color: white;
+		}
+
+		.promises-section {
+			margin: 40px 0;
+		}
+
+		.promise-item {
+			background: var(--glass);
+			border: 1px solid var(--glass-border);
+			padding: 15px 20px;
+			border-radius: 20px;
+			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			transition: 0.3s;
+		}
+
+		.promise-item:hover {
+			background: rgba(255, 77, 109, 0.1);
+			border-color: var(--primary);
+			transform: scale(1.02);
+		}
+
+		.promise-item i {
+			color: var(--gold);
+		}
+
+		#page-3 {
+			display: none;
+			opacity: 0;
+			position: fixed;
+			inset: 0;
+			z-index: 10000;
+			background: #000;
+			transition: 1.5s;
+			overflow-y: auto;
+		}
+
+		.secret-content {
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 40px 20px;
+			text-align: center;
+			background: radial-gradient(circle at center, #3d0a18 0%, #000 100%);
+		}
+
+		.floating-message {
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid var(--gold);
+			padding: 45px 30px;
+			border-radius: 50px;
+			backdrop-filter: blur(40px);
+			box-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
+			width: 100%;
+			max-width: 380px;
+			animation: float 3s ease-in-out infinite;
+		}
+
+		@keyframes float {
+
+			0%,
+			100% {
+				transform: translateY(0);
+			}
+
+			50% {
+				transform: translateY(-15px);
+			}
+		}
+
+		.btn-style {
+			background: linear-gradient(45deg, var(--primary), var(--secondary));
+			color: white;
+			border: none;
+			padding: 18px 30px;
+			border-radius: 20px;
+			font-weight: 800;
+			cursor: pointer;
+			width: 100%;
+			transition: 0.3s;
+			box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+		}
+
+		.btn-style:hover {
+			transform: scale(1.05);
+			box-shadow: 0 15px 25px rgba(255, 77, 109, 0.5);
+		}
+
+		.btn-outline {
+			background: none;
+			border: 1px solid var(--gold);
+			color: var(--gold);
+			padding: 15px 35px;
+			border-radius: 50px;
+			cursor: pointer;
+			margin-top: 30px;
+			font-weight: 600;
+			transition: 0.3s;
+		}
+
+		.music-bar {
+			background: var(--glass);
+			padding: 18px;
+			border-radius: 30px;
+			border: 1px solid var(--glass-border);
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			margin: 25px 0;
+			backdrop-filter: blur(20px);
+		}
+
+		.play-icon {
+			width: 50px;
+			height: 50px;
+			background: var(--primary);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 0 15px var(--primary);
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body onload="initSite()">
+
+	<div class="hearts-bg" id="hearts-container"></div>
+
+	<section id="page-2">
+		<div class="container">
+			<header style="text-align:center; padding:50px 0;">
+				<h2 class="main-title">حكايتنا ❤️</h2>
+				<p style="opacity:0.8; margin-top:10px;">كل لحظة معاكي هي عمر جديد</p>
+			</header>
+
+			<div style="text-align:center; color:var(--gold); font-size:13px; letter-spacing:4px; font-weight: 700;">منذ
+				أن بدأت القصة</div>
+			<div class="counter-grid">
+				<div class="count-box"><span id="years" class="count-num">0</span><span
+						style="font-size:11px; opacity:0.6;">سنة</span></div>
+				<div class="count-box"><span id="months" class="count-num">0</span><span
+						style="font-size:11px; opacity:0.6;">شهر</span></div>
+				<div class="count-box"><span id="days" class="count-num">0</span><span
+						style="font-size:11px; opacity:0.6;">يوم</span></div>
+				<div class="count-box"><span id="hours" class="count-num">0</span><span
+						style="font-size:11px; opacity:0.6;">ساعة</span></div>
+				<div class="count-box"><span id="mins" class="count-num">0</span><span
+						style="font-size:11px; opacity:0.6;">دقيقة</span></div>
+				<div class="count-box"><span id="secs" class="count-num">0</span><span
+						style="font-size:11px; opacity:0.6;">ثانية</span></div>
+			</div>
+
+			<div class="music-bar">
+				<div class="play-icon" onclick="toggleMusic()"><i id="pIcon" class="fa-solid fa-play"></i></div>
+				<div style="flex:1">
+					<div style="font-size:15px; font-weight:700;">نور عيني</div>
+					<div style="font-size:11px; opacity:0.5;">الأغنية اللي بتوصفنا 🎵</div>
+				</div>
+				<audio id="loveSong" loop src="assets/music.mp3"></audio>
+			</div>
+
+			<div class="promises-section">
+				<div class="promise-item"><i class="fa-solid fa-hand-holding-heart"></i> <span>هفضل سندك في كل
+						وقت</span></div>
+				<div class="promise-item"><i class="fa-solid fa-shield-halved"></i> <span>هكون دايماً أمانك
+						وضحكتك</span></div>
+				<div class="promise-item"><i class="fa-solid fa-infinity"></i> <span>حبنا ملوش نهاية.. وعد</span></div>
+			</div>
+
+			<div class="notes-container">
+				<div class="note-card" onclick="this.classList.toggle('flipped')">
+					<div class="note-front"><i class="fa-solid fa-envelope"></i></div>
+					<div class="note-back">إنتي أجمل نعمة في حياتي ❤️</div>
+				</div>
+				<div class="note-card" onclick="this.classList.toggle('flipped')">
+					<div class="note-front"><i class="fa-solid fa-star"></i></div>
+					<div class="note-back">وجودك بيخلي الدنيا منورة ✨</div>
+				</div>
+				<div class="note-card" onclick="this.classList.toggle('flipped')">
+					<div class="note-front"><i class="fa-solid fa-crown"></i></div>
+					<div class="note-back">ملكة قلبي للأبد 💍</div>
+				</div>
+			</div>
+
+			<div class="gallery">
+				<div class="glass-card"><img src="assets/img1.jpg">
+					<div style="padding:20px; text-align:center; font-weight: 600;">أحلى صدفة في عمري ❤️</div>
+				</div>
+				<div class="glass-card"><img src="assets/img2.jpg">
+					<div style="padding:20px; text-align:center; font-weight: 600;">ضحكتك هي حياتي ✨</div>
+				</div>
+				<div class="glass-card"><img src="assets/img3.jpg">
+					<div style="padding:20px; text-align:center; font-weight: 600;">عالمي الخاص بيكي</div>
+				</div>
+				<div class="glass-card"><img src="assets/img4.jpg">
+					<div style="padding:20px; text-align:center; font-weight: 600;">بموت فيكي يا حبيبة 💍</div>
+				</div>
+			</div>
+
+			<div style="text-align:center; padding-bottom:100px;">
+				<button class="btn-outline" onclick="goToPage3()">في حاجة أخيرة ليكي.. 🎁</button>
+			</div>
+		</div>
+	</section>
+
+	<section id="page-3">
+		<div class="secret-content">
+			<div class="floating-message animate__animated animate__fadeInUp">
+				<i class="fa-solid fa-heart"
+					style="color:var(--primary); font-size:45px; margin-bottom:25px; filter: drop-shadow(0 0 10px var(--primary));"></i>
+				<h2 style="color:#fff; margin-bottom:20px; font-size: 28px;">ملكة قلبي.. ❤️</h2>
+				<p style="font-size:16px; line-height:1.8; color:#eee; font-style:italic;">
+					حبيبتي "حبيبة".. عايز أقولك إن كل كلمة كتبتها هنا وكل صورة حطيتها هي جزء صغير من اللي حاسه بيكي.
+					إنتي مش بس حبيبتي، إنتي بنتي وصحبتي وأماني. هفضل دايماً جنبك، وهيفضل حبنا بيكبر كل يوم عن اللي قبله.
+					ربنا يخليكي ليا يا أغلى من عمري.
+				</p>
+				<div style="margin-top:25px; font-weight:900; color:var(--gold); font-size: 20px;">بحبك يا حبيبة.. للأبد
+					❤️</div>
+				<button onclick="location.reload()"
+					style="background:none; border:none; color:var(--primary); margin-top:35px; font-size:13px; text-decoration:underline; cursor:pointer; font-weight: 600;">العودة
+					للبداية</button>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		function initSite() {
+			createHearts();
+			startCounter();
+			checkScroll();
+			// Start music on first interaction to comply with browser policies
+			document.body.addEventListener('click', function () {
+				const a = document.getElementById('loveSong');
+				if (a.paused && !a.ended && a.currentTime === 0) {
+					toggleMusic();
+				}
+			}, { once: true });
+		}
+
+		function goToPage3() {
+			document.getElementById('page-3').style.display = 'block';
+			document.body.style.overflow = 'hidden';
+			window.scrollTo(0, 0);
+			setTimeout(() => { document.getElementById('page-3').style.opacity = '1'; }, 50);
+		}
+
+		function startCounter() {
+			const start = new Date("2023-01-20T00:00:00");
+			setInterval(() => {
+				const diff = new Date() - start;
+				document.getElementById('years').innerText = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+				document.getElementById('months').innerText = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+				document.getElementById('days').innerText = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+				document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+				document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+			}, 1000);
+		}
+
+		function toggleMusic() {
+			const a = document.getElementById('loveSong');
+			const i = document.getElementById('pIcon');
+			if (a.paused) {
+				a.play().catch(e => console.log("Auto-play prevented"));
+				i.className = 'fa-solid fa-pause';
+			}
+			else {
+				a.pause();
+				i.className = 'fa-solid fa-play';
+			}
+		}
+
+		function createHearts() {
+			const container = document.getElementById('hearts-container');
+			setInterval(() => {
+				const heart = document.createElement('i');
+				const isStar = Math.random() > 0.8;
+				heart.className = isStar ? 'fa-solid fa-star heart-particle' : 'fa-solid fa-heart heart-particle';
+				heart.style.left = Math.random() * 100 + 'vw';
+				heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+				heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
+				container.appendChild(heart);
+				setTimeout(() => heart.remove(), 6000);
+			}, 300);
+		}
+
+		function checkScroll() {
+			document.querySelectorAll('.glass-card').forEach(card => {
+				const rect = card.getBoundingClientRect();
+				if (rect.top < window.innerHeight - 50) {
+					card.classList.add('show');
+				}
+			});
+		}
+
+		window.addEventListener('scroll', checkScroll);
+	</script>
+</body>
+
+</html>
